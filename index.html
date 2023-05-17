@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tombola</title>
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Estrazione Tombola</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">Numero estratto</th>
+        </tr>
+      </thead>
+      <tbody id="numeri-estratti">
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:8080');
+
+    socket.addEventListener('open', (event) => {
+      console.log('connessione al server avvenuta con successo');
+    });
+
+    socket.addEventListener('message', (event) => {
+      const numero = event.data;
+      const listaNumeri = document.getElementById('numeri-estratti');
+      const nuovoElemento = document.createElement('tr');
+      const cellaNumero = document.createElement('td');
+      cellaNumero.textContent = numero;
+      nuovoElemento.appendChild(cellaNumero);
+      listaNumeri.appendChild(nuovoElemento);
+    });
+  </script>
+</body>
+</html>
